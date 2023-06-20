@@ -340,34 +340,51 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(agena.ai)</span></code></pre></div>
-<p>Setting the working directory to where we have the Models folder if
-needed</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#setwd(&quot;/Users/user/repos/api-r&quot;)</span></span></code></pre></div>
-<p>Importing an existing model from a .cmpx file</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">from_cmpx</span>(<span class="st">&quot;CarCosts.cmpx&quot;</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>network <span class="ot">&lt;-</span> model<span class="sc">$</span>networks[[<span class="dv">1</span>]]</span></code></pre></div>
-<p>Creating an empty csv file template with all the networks and nodes
-in the model</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">create_csv_template</span>(model)</span></code></pre></div>
-<p>The dataset csv is manually prepared and filled in outside the R
-environment In this example, it now includes five scenarios with
-different observations, and only the columns about the observed
-variables are kept</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>inputData <span class="ot">&lt;-</span> <span class="st">&quot;CarCosts_DataSet_Modified.csv&quot;</span></span></code></pre></div>
-<p>Creating batch cases, this function creates a new .json model file in
-the working directory with dataSets representing all the rows in the
-input data</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">create_batch_cases</span>(model, inputData)</span></code></pre></div>
-<p>It is possible to import the new model file back to R to work with
-it</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>model_with_cases <span class="ot">&lt;-</span> <span class="fu">from_cmpx</span>(<span class="st">&quot;Car Costs_0 Model_Batch_Cases.json&quot;</span>)</span></code></pre></div>
-<p>Now model_with_cases is an R model object containing both the
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(agena.ai)</span></code></pre></div>
+<div id="setting-the-working-directory-to-where-we-have-the-models-folder-if-needed" class="section level1">
+<h1>Setting the working directory to where we have the Models folder if
+needed</h1>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co">#setwd(&quot;/Users/user/repos/api-r&quot;)</span></span></code></pre></div>
+</div>
+<div id="importing-an-existing-model-from-a-.cmpx-file" class="section level1">
+<h1>Importing an existing model from a .cmpx file</h1>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">from_cmpx</span>(<span class="st">&quot;CarCosts.cmpx&quot;</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>network <span class="ot">&lt;-</span> model<span class="sc">$</span>networks[[<span class="dv">1</span>]]</span></code></pre></div>
+</div>
+<div id="creating-an-empty-csv-file-template-with-all-the-networks-and-nodes-in-the-model" class="section level1">
+<h1>Creating an empty csv file template with all the networks and nodes
+in the model</h1>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">create_csv_template</span>(model)</span></code></pre></div>
+</div>
+<div id="the-dataset-csv-is-manually-prepared-and-filled-in-outside-the-r-environment" class="section level1">
+<h1>The dataset csv is manually prepared and filled in outside the R
+environment</h1>
+<p>In this example, it now includes five scenarios with different
+observations, and only the columns about the observed variables are
+kept</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>inputData <span class="ot">&lt;-</span> <span class="st">&quot;CarCosts_DataSet_Modified.csv&quot;</span></span></code></pre></div>
+</div>
+<div id="creating-batch-cases-this-function-creates-a-new-.json-model-file-in-the-working-directory-with-datasets-representing-all-the-rows-in-the-input-data" class="section level1">
+<h1>Creating batch cases, this function creates a new .json model file
+in the working directory with dataSets representing all the rows in the
+input data</h1>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">create_batch_cases</span>(model, inputData)</span></code></pre></div>
+</div>
+<div id="it-is-possible-to-import-the-new-model-file-back-to-r-to-work-with-it" class="section level1">
+<h1>It is possible to import the new model file back to R to work with
+it</h1>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>model_with_cases <span class="ot">&lt;-</span> <span class="fu">from_cmpx</span>(<span class="st">&quot;Car Costs_0 Model_Batch_Cases.json&quot;</span>)</span></code></pre></div>
+</div>
+<div id="now-model_with_cases-is-an-r-model-object-containing-both-the-datasets-already-existing-in-the-model-and-a-new-dataset-for-each-row-in-the-input-data-and-it-is-ready-to-be-used-for-calculation-purposes" class="section level1">
+<h1>Now model_with_cases is an R model object containing both the
 dataSets already existing in the model and a new dataSet for each row in
-the input data and it is ready to be used for calculation purposes</p>
-<p>Running the local API batch calculate function to update the model
-object with all the results</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">local_api_batch_calculate</span>(model_with_cases)</span></code></pre></div>
+the input data and it is ready to be used for calculation purposes</h1>
+</div>
+<div id="running-the-local-api-batch-calculate-function-to-update-the-model-object-with-all-the-results" class="section level1">
+<h1>Running the local API batch calculate function to update the model
+object with all the results</h1>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">local_api_batch_calculate</span>(model_with_cases)</span></code></pre></div>
+</div>
 
 
 

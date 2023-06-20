@@ -340,27 +340,37 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(agena.ai)</span></code></pre></div>
-<p>Setting the working directory to where we have the Models folder if
-needed</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#setwd(&quot;/Users/user/repos/api-r&quot;)</span></span></code></pre></div>
-<p>Importing an existing model from a .cmpx file</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">from_cmpx</span>(<span class="st">&quot;CarCosts.cmpx&quot;</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>network <span class="ot">&lt;-</span> model<span class="sc">$</span>networks[[<span class="dv">1</span>]]</span></code></pre></div>
-<p>Creating a new dataSet in the model for sensitivity analysis</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>model<span class="sc">$</span><span class="fu">create_dataSet</span>(<span class="at">id =</span> <span class="st">&quot;sa&quot;</span>)</span></code></pre></div>
-<p>Creating a sensitivity analysis config object which uses all nodes
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(agena.ai)</span></code></pre></div>
+<div id="setting-the-working-directory-to-where-we-have-the-models-folder-if-needed" class="section level1">
+<h1>Setting the working directory to where we have the Models folder if
+needed</h1>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co">#setwd(&quot;/Users/user/repos/api-r&quot;)</span></span></code></pre></div>
+</div>
+<div id="importing-an-existing-model-from-a-.cmpx-file" class="section level1">
+<h1>Importing an existing model from a .cmpx file</h1>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">from_cmpx</span>(<span class="st">&quot;CarCosts.cmpx&quot;</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>network <span class="ot">&lt;-</span> model<span class="sc">$</span>networks[[<span class="dv">1</span>]]</span></code></pre></div>
+</div>
+<div id="creating-a-new-dataset-in-the-model-for-sensitivity-analysis" class="section level1">
+<h1>Creating a new dataSet in the model for sensitivity analysis</h1>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>model<span class="sc">$</span><span class="fu">create_dataSet</span>(<span class="at">id =</span> <span class="st">&quot;sa&quot;</span>)</span></code></pre></div>
+</div>
+<div id="creating-a-sensitivity-analysis-config-object-which-uses-all-nodes-for-sensitivity-analysis-on-the-node-total_cost-to-calculate-mean-and-variance-results" class="section level1">
+<h1>Creating a sensitivity analysis config object which uses all nodes
 for sensitivity analysis on the node total_cost, to calculate mean and
-variance results</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sa_config <span class="ot">&lt;-</span> <span class="fu">create_sensitivity_config</span>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">target=</span><span class="st">&quot;total_cost&quot;</span>,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">sensitivity_nodes=</span><span class="st">&quot;*&quot;</span>,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset=</span><span class="st">&quot;sa&quot;</span>,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">report_settings =</span> <span class="fu">list</span>(<span class="at">summaryStats =</span> <span class="fu">c</span>(<span class="st">&quot;mean&quot;</span>, <span class="st">&quot;variance&quot;</span>))</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<p>Running the sensitivity analysis using local agena.ai developer
-API</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">local_api_sensitivity</span>(model, sa_config, <span class="st">&#39;local_sensitivity.json&#39;</span>)</span></code></pre></div>
+variance results</h1>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>sa_config <span class="ot">&lt;-</span> <span class="fu">create_sensitivity_config</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="at">target=</span><span class="st">&quot;total_cost&quot;</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="at">sensitivity_nodes=</span><span class="st">&quot;*&quot;</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="at">dataset=</span><span class="st">&quot;sa&quot;</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="at">report_settings =</span> <span class="fu">list</span>(<span class="at">summaryStats =</span> <span class="fu">c</span>(<span class="st">&quot;mean&quot;</span>, <span class="st">&quot;variance&quot;</span>))</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+<div id="running-the-sensitivity-analysis-using-local-agena.ai-developer-api" class="section level1">
+<h1>Running the sensitivity analysis using local agena.ai developer
+API</h1>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">local_api_sensitivity</span>(model, sa_config, <span class="st">&#39;local_sensitivity.json&#39;</span>)</span></code></pre></div>
+</div>
 
 
 

@@ -13,14 +13,14 @@
 
 # 1. Description
 
-agena.ai is an R environment for creating, modifying, and parsing Bayesian network models, and sending the models to agena.ai Cloud to execute calculation requests. The environment allows users to read and modify Bayesian networks from .cmpx model files, create new Bayesian networks in R and export to .cmpx and .json files locally, as well as authenticating with agena.ai Cloud for individual or batch model calculations. In the rest of this document, the R environment is referred to as R-Agena.
+agena.ai is an R environment for creating, modifying, and parsing Bayesian network models, and sending the models to agena.ai Cloud to execute calculation requests. The environment allows users to read and modify Bayesian networks from .cmpx model files, create new Bayesian networks in R and export to .cmpx and .json files locally, as well as authenticating with agena.ai Cloud for individual or batch model calculations. In the rest of this document, the R environment for agena.ai is referred to as R-Agena.
 
 # 2. Prerequisites and Installation
 
-To install R-Agena with `devtools`:
+To install R-Agena from CRAN:
 
 ```r
-devtools::install_github("AgenaRisk/api-r")
+install.packages("agena.ai")
 ```
 
 R-Agena requires `rjson`, `httr`, `Rgraphviz`, and `openxlsx` packages installed.
@@ -199,7 +199,7 @@ To see how to create these links, see `add_network_link()` function later in thi
 * iterations (50)
 * tolerance (1)
 
-Model settings can be provided when creating a new model, if not provided the model will come with the default settings. Default settings can be changed later on (with the method `$change_settings()`), or model settings can be reset back to default values (with the method `$default_settings()`). See the correct input parameter format for these functions in the following section.
+Model settings can be provided when creating a new model, if not provided the model will come with the default settings. Default settings can be changed later on (with the method `$change_settings()`), or model settings can be reset back to default values (with the method `$default_settings()`). See the correct input parameter format for these functions in the following section. Individual fields in model setting can be adjusted by directly accessing the field too.
 
 # 4. Class Methods
 
@@ -407,6 +407,11 @@ new_settings <- list(parameterLearningLogging = TRUE,
                     tolerance = 1)
 
 example_model$change_settings(new_settings)
+```
+If you prefer to adjust only one of the setting fields, you can directly access the field, for example:
+
+```r
+example_model$settings$convergence <- 0.01
 ```
 
 ### 4.3.16 `default_settings()`
@@ -1028,6 +1033,7 @@ This will send a POST request to authentication server, and will return the logi
 * `input_model` is the R Model object
 * `login` is the login object created with the credentials
 * (optional) `dataSet` is the name of the dataset that contains the set of observations (`$id` of one of the `dataSets` objects) if any. If the model has only one dataset (scenario) with observations, scenario needs not be specified (it is also possible to send a model without any observations).
+* (optional) `debug` is a boolean parameter which is false by default that enables extra debugging messages to be displayed in the console.
 
 Currently servers accept a single set of observations for each calculation, if the R model has multiple datasets (scenarios), you need to specify which dataset is to be used.
 
@@ -1045,6 +1051,8 @@ calculate(example_model, example_login, dataSet_id)
 ```
 
 If calculation is successful, this function will update the R model (the relevant `dataSets$results` field in the model) with results of the calculation.
+
+The model calculation computation supports asynchronous (polling) request if the computation job takes longer than 10 seconds. The R client will periodically recheck the servers and obtain the results once the computation is finished (or timed out, whichever comes first).
 
 If you would like to see the calculation results in a .csv format, you can use the Model method `get_results()` to generate the output file.
 
@@ -1153,7 +1161,7 @@ sensitivity_analysis(example_model, test_login, example_sens_config)
 
 This will return a spreadsheet of tables and a json file for the results. The spreadsheet contains sensitivity analysis results and probability values for each sensitivity node defined in the configuration. The results json file contains raw results data for all analysis report options defined, such as tables, tornado graphs, and curve graphs.
 
-Note that the spreadsheet of tables is not created if there is an .xlsx file with the same name in the directory, then only results json is created.
+The sensitivity analysis computation supports asynchronous (polling) request if the computation job takes longer than 10 seconds. The R client will periodically recheck the servers and obtain the results once the computation is finished (or timed out, whichever comes first).
 
 # 9. Local agena.ai API with R-Agena
 
@@ -1233,7 +1241,7 @@ In this section, some use case examples of R-Agena environment are shown.
 
 This is a BN which uses experiment observations to estimate the parameters of a distribution. In the model structure, there are nodes for the parameters which are the underlying parameters for all the experiments and the observed values inform us about the values for these parameters. The model in agena.ai Modeller is given below:
 
-![Diet Experiment Image](/Assets/diet_image.png)
+![Diet Experiment Image](https://resources.agena.ai/materials/repos/r_diet_image.png)
 
 In this section we will create this model entirely in RAgena environment. We can start with creating first four nodes. 
 

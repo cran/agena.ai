@@ -340,15 +340,19 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(agena.ai)</span></code></pre></div>
-<p>Setting the working directory where the local api will be cloned and
-installed if needed</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#setwd(&quot;/Users/user/repos/api-r&quot;)</span></span></code></pre></div>
-<p>Creating the local agena.ai developer API environment. Requires git,
-Java, and maven.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">local_api_clone</span>() </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">local_api_compile</span>()</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">local_api_activate_license</span>(<span class="st">&quot;1234-ABCD-5678-EFGH&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(agena.ai)</span></code></pre></div>
+<div id="setting-the-working-directory-where-the-local-api-will-be-cloned-and-installed-if-needed" class="section level1">
+<h1>Setting the working directory where the local api will be cloned and
+installed if needed</h1>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co">#setwd(&quot;/Users/user/repos/api-r&quot;)</span></span></code></pre></div>
+</div>
+<div id="creating-the-local-agena.ai-developer-api-environment.-requires-git-java-and-maven." class="section level1">
+<h1>Creating the local agena.ai developer API environment. Requires git,
+Java, and maven.</h1>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">local_api_clone</span>() </span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">local_api_compile</span>()</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">local_api_activate_license</span>(<span class="st">&quot;1234-ABCD-5678-EFGH&quot;</span>)</span></code></pre></div>
+</div>
 
 
 

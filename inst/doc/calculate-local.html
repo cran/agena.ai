@@ -340,39 +340,53 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(agena.ai)</span></code></pre></div>
-<p>Setting the working directory to where we have the Models folder if
-needed</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#setwd(&quot;/Users/user/repos/api-r&quot;)</span></span></code></pre></div>
-<p>Importing an existing model from a .cmpx file</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">from_cmpx</span>(<span class="st">&quot;CarCosts.cmpx&quot;</span>)</span></code></pre></div>
-<p>Defining the dataSet of interest (“mercedes”), and finding the
-relevant dataSet object in the model</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dsId <span class="ot">&lt;-</span> <span class="st">&quot;mercedes&quot;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>dsIndex <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">sapply</span>(model<span class="sc">$</span>dataSets, <span class="cf">function</span>(sds) sds<span class="sc">$</span>id <span class="sc">%in%</span> dsId))</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>dataSet <span class="ot">&lt;-</span> model<span class="sc">$</span>dataSets[[dsIndex]]</span></code></pre></div>
-<p>Assigning certain nodes in the network so that it is easier to
-manipulate them (such as entering new observation)</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>network <span class="ot">&lt;-</span> model<span class="sc">$</span>networks[[<span class="dv">1</span>]]</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>nodeCarType <span class="ot">&lt;-</span> network<span class="sc">$</span>nodes[[<span class="fu">which</span>(<span class="fu">sapply</span>(network<span class="sc">$</span>nodes, <span class="cf">function</span>(item) item<span class="sc">$</span>id <span class="sc">%in%</span> <span class="st">&quot;car_type&quot;</span>))]]</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>nodeMilesPerYear <span class="ot">&lt;-</span> network<span class="sc">$</span>nodes[[<span class="fu">which</span>(<span class="fu">sapply</span>(network<span class="sc">$</span>nodes, <span class="cf">function</span>(item) item<span class="sc">$</span>id <span class="sc">%in%</span> <span class="st">&quot;Miles_per_year&quot;</span>))]]</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>nodeReliability <span class="ot">&lt;-</span> network<span class="sc">$</span>nodes[[<span class="fu">which</span>(<span class="fu">sapply</span>(network<span class="sc">$</span>nodes, <span class="cf">function</span>(item) item<span class="sc">$</span>id <span class="sc">%in%</span> <span class="st">&quot;Reliability&quot;</span>))]]</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>nodeTotalAnnualCost <span class="ot">&lt;-</span> network<span class="sc">$</span>nodes[[<span class="fu">which</span>(<span class="fu">sapply</span>(network<span class="sc">$</span>nodes, <span class="cf">function</span>(item) item<span class="sc">$</span>id <span class="sc">%in%</span> <span class="st">&quot;total_cost&quot;</span>))]]</span></code></pre></div>
-<p>Entering new observations to the selected nodes</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>model<span class="sc">$</span><span class="fu">enter_observation</span>(dsId, <span class="at">node=</span>nodeCarType<span class="sc">$</span>id, <span class="at">network=</span>network<span class="sc">$</span>id, <span class="at">value=</span><span class="st">&quot;Small&quot;</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>model<span class="sc">$</span><span class="fu">enter_observation</span>(dsId, <span class="at">node=</span>nodeMilesPerYear<span class="sc">$</span>id, <span class="at">network=</span>network<span class="sc">$</span>id, <span class="at">value=</span><span class="dv">1000</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>model<span class="sc">$</span><span class="fu">enter_observation</span>(dsId, <span class="at">node=</span>nodeReliability<span class="sc">$</span>id, <span class="at">network=</span>network<span class="sc">$</span>id, <span class="at">value=</span><span class="st">&quot;Low&quot;</span>)</span></code></pre></div>
-<p>Calculating the model using local agena.ai developer API</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">local_api_calculate</span>(model, dsId, <span class="st">&quot;mercedes.json&quot;</span>)</span></code></pre></div>
-<p>Accessing and displaying information which now is included in the
-model object</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>dsIndex <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">sapply</span>(model<span class="sc">$</span>dataSets, <span class="cf">function</span>(sds) sds<span class="sc">$</span>id <span class="sc">%in%</span> dsId))</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>dataSet <span class="ot">&lt;-</span> model<span class="sc">$</span>dataSets[[dsIndex]]</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>resIndex <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">sapply</span>(model<span class="sc">$</span>dataSets[[dsIndex]]<span class="sc">$</span>results, <span class="cf">function</span>(res) res<span class="sc">$</span>node <span class="sc">%in%</span> <span class="st">&quot;total_cost&quot;</span>))</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>model<span class="sc">$</span>dataSets[[dsIndex]]<span class="sc">$</span>results[[resIndex]]<span class="sc">$</span>node</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>model<span class="sc">$</span>dataSets[[dsIndex]]<span class="sc">$</span>results[[resIndex]]<span class="sc">$</span>summaryStatistics<span class="sc">$</span>mean</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(agena.ai)</span></code></pre></div>
+<div id="setting-the-working-directory-to-where-we-have-the-models-folder-if-needed" class="section level1">
+<h1>Setting the working directory to where we have the Models folder if
+needed</h1>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co">#setwd(&quot;/Users/user/repos/api-r&quot;)</span></span></code></pre></div>
+</div>
+<div id="importing-an-existing-model-from-a-.cmpx-file" class="section level1">
+<h1>Importing an existing model from a .cmpx file</h1>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">from_cmpx</span>(<span class="st">&quot;CarCosts.cmpx&quot;</span>)</span></code></pre></div>
+</div>
+<div id="defining-the-dataset-of-interest-mercedes-and-finding-the-relevant-dataset-object-in-the-model" class="section level1">
+<h1>Defining the dataSet of interest (“mercedes”), and finding the
+relevant dataSet object in the model</h1>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>dsId <span class="ot">&lt;-</span> <span class="st">&quot;mercedes&quot;</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>dsIndex <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">sapply</span>(model<span class="sc">$</span>dataSets, <span class="cf">function</span>(sds) sds<span class="sc">$</span>id <span class="sc">%in%</span> dsId))</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>dataSet <span class="ot">&lt;-</span> model<span class="sc">$</span>dataSets[[dsIndex]]</span></code></pre></div>
+</div>
+<div id="assigning-certain-nodes-in-the-network-so-that-it-is-easier-to-manipulate-them-such-as-entering-new-observation" class="section level1">
+<h1>Assigning certain nodes in the network so that it is easier to
+manipulate them (such as entering new observation)</h1>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>network <span class="ot">&lt;-</span> model<span class="sc">$</span>networks[[<span class="dv">1</span>]]</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>nodeCarType <span class="ot">&lt;-</span> network<span class="sc">$</span>nodes[[<span class="fu">which</span>(<span class="fu">sapply</span>(network<span class="sc">$</span>nodes, <span class="cf">function</span>(item) item<span class="sc">$</span>id <span class="sc">%in%</span> <span class="st">&quot;car_type&quot;</span>))]]</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>nodeMilesPerYear <span class="ot">&lt;-</span> network<span class="sc">$</span>nodes[[<span class="fu">which</span>(<span class="fu">sapply</span>(network<span class="sc">$</span>nodes, <span class="cf">function</span>(item) item<span class="sc">$</span>id <span class="sc">%in%</span> <span class="st">&quot;Miles_per_year&quot;</span>))]]</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>nodeReliability <span class="ot">&lt;-</span> network<span class="sc">$</span>nodes[[<span class="fu">which</span>(<span class="fu">sapply</span>(network<span class="sc">$</span>nodes, <span class="cf">function</span>(item) item<span class="sc">$</span>id <span class="sc">%in%</span> <span class="st">&quot;Reliability&quot;</span>))]]</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>nodeTotalAnnualCost <span class="ot">&lt;-</span> network<span class="sc">$</span>nodes[[<span class="fu">which</span>(<span class="fu">sapply</span>(network<span class="sc">$</span>nodes, <span class="cf">function</span>(item) item<span class="sc">$</span>id <span class="sc">%in%</span> <span class="st">&quot;total_cost&quot;</span>))]]</span></code></pre></div>
+</div>
+<div id="entering-new-observations-to-the-selected-nodes" class="section level1">
+<h1>Entering new observations to the selected nodes</h1>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>model<span class="sc">$</span><span class="fu">enter_observation</span>(dsId, <span class="at">node=</span>nodeCarType<span class="sc">$</span>id, <span class="at">network=</span>network<span class="sc">$</span>id, <span class="at">value=</span><span class="st">&quot;Small&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>model<span class="sc">$</span><span class="fu">enter_observation</span>(dsId, <span class="at">node=</span>nodeMilesPerYear<span class="sc">$</span>id, <span class="at">network=</span>network<span class="sc">$</span>id, <span class="at">value=</span><span class="dv">1000</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>model<span class="sc">$</span><span class="fu">enter_observation</span>(dsId, <span class="at">node=</span>nodeReliability<span class="sc">$</span>id, <span class="at">network=</span>network<span class="sc">$</span>id, <span class="at">value=</span><span class="st">&quot;Low&quot;</span>)</span></code></pre></div>
+</div>
+<div id="calculating-the-model-using-local-agena.ai-developer-api" class="section level1">
+<h1>Calculating the model using local agena.ai developer API</h1>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">local_api_calculate</span>(model, dsId, <span class="st">&quot;mercedes.json&quot;</span>)</span></code></pre></div>
+</div>
+<div id="accessing-and-displaying-information-which-now-is-included-in-the-model-object" class="section level1">
+<h1>Accessing and displaying information which now is included in the
+model object</h1>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>dsIndex <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">sapply</span>(model<span class="sc">$</span>dataSets, <span class="cf">function</span>(sds) sds<span class="sc">$</span>id <span class="sc">%in%</span> dsId))</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>dataSet <span class="ot">&lt;-</span> model<span class="sc">$</span>dataSets[[dsIndex]]</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>resIndex <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">sapply</span>(model<span class="sc">$</span>dataSets[[dsIndex]]<span class="sc">$</span>results, <span class="cf">function</span>(res) res<span class="sc">$</span>node <span class="sc">%in%</span> <span class="st">&quot;total_cost&quot;</span>))</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>model<span class="sc">$</span>dataSets[[dsIndex]]<span class="sc">$</span>results[[resIndex]]<span class="sc">$</span>node</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>model<span class="sc">$</span>dataSets[[dsIndex]]<span class="sc">$</span>results[[resIndex]]<span class="sc">$</span>summaryStatistics<span class="sc">$</span>mean</span></code></pre></div>
+</div>
 
 
 
