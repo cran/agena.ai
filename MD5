@@ -1,10 +1,10 @@
-a7a0b0fc907e1f80861b7441b1a95011 *DESCRIPTION
+d2fed73deb53cd0ca958b96a17871473 *DESCRIPTION
 383b60cfd9fac7dd2921d54f84dd7502 *LICENSE
 105c6576953b6e504e5b7731fa629af5 *NAMESPACE
-b60297aef6cdef7aa2ea4502c6470a86 *NEWS.md
+c176b46445a7475e52838fc9d56ae69b *NEWS.md
 0a5f101ee9012510556cd06ebee31532 *R/RAgena.R
-bbcde5a8abce8dff7254f34ccb56999e *README.md
-15940b08971a21dc5d402eabeff3bd16 *build/vignette.rds
+5eb19afe4112c5788cd216fa7637ecac *README.md
+4a5ad53f757376c75c37f270aa47eb66 *build/vignette.rds
 f54c6598fdc85d14b7c055f489547927 *inst/doc/batch-calculate.R
 efa551b2f2914fa58d6c3d2ddc19a4ec *inst/doc/batch-calculate.Rmd
 8a500c39ddf064ee2412979fd35148ed *inst/doc/batch-calculate.html
@@ -14,6 +14,9 @@ de5cf711ab42248ccd7ddcf7f249102c *inst/doc/calculate-cloud.html
 ddf230b408c29e05c6b7d318400383f5 *inst/doc/calculate-local.R
 6276a6ea9ec4321547edeb8719c9ec76 *inst/doc/calculate-local.Rmd
 7a6f26138f184b312f346cecf8abae4e *inst/doc/calculate-local.html
+2771520f889c184d414f0702e0265925 *inst/doc/create-model.R
+e44344d2e68478ecd520acb55707404e *inst/doc/create-model.Rmd
+1035aa5a4e461d10159e861041b4bbf7 *inst/doc/create-model.html
 fdc6f17b5daff71dce2f3954dfe5011a *inst/doc/sensitivity-cloud.R
 0f09fc9d67ad48299f83864551d4bd15 *inst/doc/sensitivity-cloud.Rmd
 2d46c2bcba354f4a4b9b480aaab58b9c *inst/doc/sensitivity-cloud.html
@@ -46,6 +49,7 @@ cd7fcd972ce774a6d1192e6fd4d90535 *man/sensitivity_analysis.Rd
 efa551b2f2914fa58d6c3d2ddc19a4ec *vignettes/batch-calculate.Rmd
 5ee75a68bc80981b0212e3775142c317 *vignettes/calculate-cloud.Rmd
 6276a6ea9ec4321547edeb8719c9ec76 *vignettes/calculate-local.Rmd
+e44344d2e68478ecd520acb55707404e *vignettes/create-model.Rmd
 0f09fc9d67ad48299f83864551d4bd15 *vignettes/sensitivity-cloud.Rmd
 8f48b9d39fb268d026eaa0d61d825736 *vignettes/sensitivity-local.Rmd
 16eb0fa2eb55899ac1dcffb5b29c32ae *vignettes/setup-local-calculation.Rmd
